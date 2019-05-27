@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
-import { flatten } from 'lodash';
-import { SessionConfig, Question } from './session.config';
+import { flatten, cloneDeep } from 'lodash';
+import { SessionConfig, Question, QuestionToOut } from './session.config';
 
 function getRandom(min: number, max: number): number {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -22,6 +22,7 @@ export class AppService {
       require('./data/network.json'),
       require('./data/prog.json')
     ]);
+    // console.log(JSON.stringify(this.data, null, 2));
   }
 
   createSession(): string {
@@ -30,7 +31,7 @@ export class AppService {
     return id;
   }
 
-  configureSession(id: string, quantity: number): string {
+  configureSession(id: string, quantity: number): SessionConfig {
     const session = this.sessions[id];
 
     if (!session) {
@@ -46,10 +47,10 @@ export class AppService {
     }
 
     session.properties.quantity = quantity;
-    return 'ok';
+    return session;
   }
 
-  nextQuestion(id: string): Question {
+  nextQuestion(id: string): QuestionToOut {
     const session = this.sessions[id];
 
     if (!session) {
@@ -60,13 +61,17 @@ export class AppService {
       throw Error(`Session ${id} does not fully configured!`);
     }
 
-    const order = getRandom(0, this.data.length);
+    const order = getRandom(0, this.data.length - 1);
+    // const order = 23;
     const question = this.data[order];
-
-    console.log(order, question);
+    const questionToOut = {
+      question: question.question,
+      answers: question.answers.map(option => option.answer),
+      config: cloneDeep(question.config)
+    };
 
     session.properties.passed.push(question.question);
 
-    return question;
+    return questionToOut;
   }
 }

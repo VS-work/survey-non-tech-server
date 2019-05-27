@@ -16,6 +16,12 @@ export interface Question {
   config: QuestionConfig;
 }
 
+export interface QuestionToOut {
+  question: string;
+  answers: string[];
+  config: QuestionConfig;
+}
+
 export interface SessionProperties {
   quantity: number;
   question: number;
