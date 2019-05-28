@@ -9,6 +9,11 @@ export interface Answer {
   correct?: boolean;
 }
 
+export interface Answered {
+  origin: QuestionToOut;
+  result: string | string[];
+}
+
 export interface Question {
   question: string;
   answers: Answer[];
@@ -25,7 +30,7 @@ export interface QuestionToOut {
 export interface SessionProperties {
   quantity: number;
   question: number;
-  passed: string[];
+  passed: Answered[];
 }
 
 export interface SessionConfig {

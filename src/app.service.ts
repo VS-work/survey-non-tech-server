@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { flatten, cloneDeep } from 'lodash';
-import { SessionConfig, Question, QuestionToOut } from './session.config';
+import { SessionConfig, Question, QuestionToOut, Answered } from './session.config';
 
 function getRandom(min: number, max: number): number {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -51,6 +51,28 @@ export class AppService {
   }
 
   nextQuestion(id: string): QuestionToOut {
+    const session = this.getSession(id);
+    let question;
+
+    do {
+      const order = getRandom(0, this.data.length - 1);
+      question = this.data[order];
+    } while (this.doesQuestionAnswered(session, question) && !this.isAnsweredFull(session));
+
+    const questionToOut = {
+      question: question.question,
+      answers: question.answers.map(option => option.answer),
+      config: cloneDeep(question.config)
+    };
+
+    return questionToOut;
+  }
+
+  answer(id: string, data: Answered) {
+    this.getSession(id).properties.passed.push(data);
+  }
+
+  private getSession(id: string): SessionConfig {
     const session = this.sessions[id];
 
     if (!session) {
@@ -61,17 +83,20 @@ export class AppService {
       throw Error(`Session ${id} does not fully configured!`);
     }
 
-    const order = getRandom(0, this.data.length - 1);
-    // const order = 23;
-    const question = this.data[order];
-    const questionToOut = {
-      question: question.question,
-      answers: question.answers.map(option => option.answer),
-      config: cloneDeep(question.config)
-    };
+    return session;
+  }
 
-    session.properties.passed.push(question.question);
+  private doesQuestionAnswered(session: SessionConfig, question: Question): boolean {
+    for (const answeredQuestion of session.properties.passed) {
+      if (answeredQuestion.origin.question === question.question) {
+        return true;
+      }
+    }
 
-    return questionToOut;
+    return false;
+  }
+
+  private isAnsweredFull(session: SessionConfig): boolean {
+    return session.properties.passed.length >= this.data.length;
   }
 }

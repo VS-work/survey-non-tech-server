@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { SessionConfig, QuestionToOut } from './session.config';
+import { SessionConfig, QuestionToOut, Answered } from './session.config';
 
 @Controller()
 export class AppController {
@@ -22,5 +22,10 @@ export class AppController {
   nextQuestion(@Param() params: { id: string }): QuestionToOut {
     const { id } = params;
     return this.appService.nextQuestion(id);
+  }
+
+  @Post('answer/:id')
+  getAnswer(@Param() params: { id: string }, @Body() data: Answered) {
+    console.log(data);
   }
 }
