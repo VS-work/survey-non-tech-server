@@ -27,13 +27,23 @@ export interface QuestionToOut {
   config: QuestionConfig;
 }
 
-export interface SessionProperties {
-  quantity: number;
-  question: number;
-  passed: Answered[];
-}
-
 export interface SessionConfig {
   id: string;
-  properties?: SessionProperties;
+  properties?: {
+    quantity: number;
+    question: number;
+    passed: Answered[];
+  }
+}
+
+export interface TestResult {
+  total: number;
+  resultByTags: {
+    [s: string]: {
+      right: number,
+      wrong: number,
+      rightPercent: number,
+      wrongPercent: number
+    }
+  };
 }
