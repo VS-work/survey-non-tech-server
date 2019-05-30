@@ -35,4 +35,11 @@ export class AppController {
     const { id } = params;
     return this.appService.getTotal(id);
   }
+
+  @Get('abandon/:id')
+  abandon(@Param() params: { id: string }): { id: string } {
+    const { id } = params;
+
+    return { id: this.appService.abandon(id) };
+  }
 }

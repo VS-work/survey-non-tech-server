@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
-import { flatten, cloneDeep, isArray, includes, reduce, keys } from 'lodash';
+import { flatten, cloneDeep, isArray, includes, isEmpty, keys } from 'lodash';
 import { SessionConfig, Question, QuestionToOut, Answered, TestResult, Answer } from './session.config';
 
 function getRandom(min: number, max: number): number {
@@ -50,6 +50,16 @@ export class AppService {
     return session;
   }
 
+  abandon(id: string): string {
+    const session = this.getSession(id);
+
+    if (session) {
+      this.sessions[id] = null;
+    }
+
+    return id;
+  }
+
   nextQuestion(id: string): QuestionToOut {
     const session = this.getSession(id);
     let question;
@@ -75,8 +85,9 @@ export class AppService {
   }
 
   getTotal(id: string): TestResult {
-    let right = 0;
     const resultByTags = {};
+    let right = 0;
+    let all = 0;
 
     for (const questionDesc of this.getSession(id).properties.passed) {
       const origin = this.getQuestionByLabel(questionDesc.origin.question);
@@ -102,9 +113,10 @@ export class AppService {
           resultByTags[tag].wrong++;
         }
       }
+      all++;
     }
 
-    const total = (right / this.getSession(id).properties.passed.length) * 100;
+    const total = (right / all) * 100;
 
     for (const tag of keys(resultByTags)) {
       const count = resultByTags[tag].right + resultByTags[tag].wrong;
@@ -129,6 +141,9 @@ export class AppService {
     const origin = this.getQuestionByLabel(question);
     const userOptions = !isArray(_userOptions) ? [_userOptions] : _userOptions;
 
+    if (isEmpty(userOptions)) {
+      return false;
+    }
 
     let correctAttemptCount = 0;
 
