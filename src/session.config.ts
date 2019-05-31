@@ -34,6 +34,8 @@ export interface SessionConfig {
 
 export interface TestResult {
   total: number;
+  complexPercent: number;
+  simplePercent: number;
   resultByTags: {
     [s: string]: {
       right: number,

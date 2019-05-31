@@ -96,6 +96,10 @@ export class AppService {
     const resultByTags = {};
     let right = 0;
     let all = 0;
+    let rightComplex = 0;
+    let allComplex = 0;
+    let rightSimple = 0;
+    let allSimple = 0;
 
     for (const questionDesc of this.getSession(id).properties.passed) {
       const origin = this.getQuestionByLabel(questionDesc.origin.question);
@@ -106,12 +110,14 @@ export class AppService {
             right: 0,
             wrong: 0,
             rightPercent: 0,
-            wrongPercent: 0
+            wrongPercent: 0,
           };
         }
       }
 
-      if (this.isAnswerCorrect(questionDesc.origin.question, questionDesc.result)) {
+      const isAnswerRight = this.isAnswerCorrect(questionDesc.origin.question, questionDesc.result);
+
+      if (isAnswerRight) {
         for (const tag of origin.tags) {
           resultByTags[tag].right++;
         }
@@ -122,17 +128,33 @@ export class AppService {
         }
       }
       all++;
+
+      if (questionDesc.origin.config.complex === true) {
+        if (isAnswerRight) {
+          rightComplex++;
+        }
+        allComplex++;
+      }
+
+      if (questionDesc.origin.config.complex === false) {
+        if (isAnswerRight) {
+          rightSimple++;
+        }
+        allSimple++;
+      }
     }
 
-    const total = (right / all) * 100;
+    const total = Math.round((right / all) * 100);
+    const complexPercent = Math.round((rightComplex / allComplex) * 100);
+    const simplePercent = Math.round((rightSimple / allSimple) * 100);
 
     for (const tag of keys(resultByTags)) {
       const count = resultByTags[tag].right + resultByTags[tag].wrong;
-      resultByTags[tag].rightPercent = (resultByTags[tag].right / count) * 100;
-      resultByTags[tag].wrongPercent = (resultByTags[tag].wrong / count) * 100;
+      resultByTags[tag].rightPercent = Math.round((resultByTags[tag].right / count) * 100);
+      resultByTags[tag].wrongPercent = Math.round((resultByTags[tag].wrong / count) * 100);
     }
 
-    return { total, resultByTags };
+    return { total, resultByTags, complexPercent, simplePercent };
   }
 
   private getQuestionByLabel(label: string): Question {
