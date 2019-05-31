@@ -1,29 +1,25 @@
 export interface QuestionConfig {
   type: string;
   shuffle?: boolean;
-  lastCustomOption?: string
+  complex?: boolean;
+  slow?: boolean;
 }
 
 export interface Answer {
   answer: string;
   correct?: boolean;
+  last?: boolean
 }
 
 export interface Answered {
-  origin: QuestionToOut;
+  origin: Question;
   result: string | string[];
 }
 
 export interface Question {
   question: string;
   answers: Answer[];
-  tags: string[];
-  config: QuestionConfig;
-}
-
-export interface QuestionToOut {
-  question: string;
-  answers: string[];
+  tags?: string[];
   config: QuestionConfig;
 }
 

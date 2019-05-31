@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { flatten, cloneDeep, isArray, includes, isEmpty, keys } from 'lodash';
-import { SessionConfig, Question, QuestionToOut, Answered, TestResult, Answer } from './session.config';
+import { SessionConfig, Question, Answered, TestResult, Answer } from './session.config';
 
 function getRandom(min: number, max: number): number {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -22,7 +22,7 @@ export class AppService {
       require('./data/network.json'),
       require('./data/prog.json')
     ]);
-    // console.log(JSON.stringify(this.data, null, 2));
+    this.checkData();
   }
 
   createSession(): string {
@@ -60,7 +60,7 @@ export class AppService {
     return id;
   }
 
-  nextQuestion(id: string): QuestionToOut {
+  nextQuestion(id: string): Question {
     const session = this.getSession(id);
     let question;
 
@@ -73,7 +73,15 @@ export class AppService {
 
     const questionToOut = {
       question: question.question,
-      answers: question.answers.map(option => option.answer),
+      answers: question.answers.map(option => {
+        const out: Answer = { answer: option.answer };
+
+        if (option.last === true) {
+          out.last = option.last;
+        }
+
+        return out;
+      }),
       config: cloneDeep(question.config)
     };
 
@@ -182,5 +190,18 @@ export class AppService {
 
   private isAnsweredFull(session: SessionConfig): boolean {
     return session.properties.passed.length >= this.data.length;
+  }
+
+  private checkData() {
+    let prevQuestion;
+    for (const question of this.data) {
+      if (isEmpty(question.answers) || !question.question) {
+        console.log('wrong question');
+        console.log(JSON.stringify(question, null, 2));
+        console.log('prev question');
+        console.log(JSON.stringify(prevQuestion, null, 2));
+      }
+      prevQuestion = question;
+    }
   }
 }
