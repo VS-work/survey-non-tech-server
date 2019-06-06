@@ -30,9 +30,10 @@ export class AppController {
     this.appService.answer(id, data);
   }
 
-  @Get('finish/:id')
-  getTotal(@Param() params: { id: string }): TestResult {
+  @Post('finish/:id')
+  getTotal(@Param() params: { id: string }, @Body() user: any): TestResult {
     const { id } = params;
+    console.log(user);
     return this.appService.getTotal(id);
   }
 

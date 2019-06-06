@@ -68,7 +68,7 @@ export class AppService {
       const order = getRandom(0, this.data.length - 1);
       question = this.data[order];
 
-      console.log(order, this.data[order]);
+      // console.log(order, this.data[order]);
     } while (this.doesQuestionAnswered(session, question) && !this.isAnsweredFull(session));
 
     const questionToOut = {
@@ -225,5 +225,6 @@ export class AppService {
       }
       prevQuestion = question;
     }
+    console.log(`Total questions: ${this.data.length}`);
   }
 }
