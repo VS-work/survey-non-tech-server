@@ -1,7 +1,13 @@
+import { promisify } from 'util';
+import { existsSync, mkdirSync, writeFile as _writeFile, readdir as _readdir } from 'fs';
+import { resolve } from 'path';
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { flatten, cloneDeep, isArray, includes, isEmpty, keys } from 'lodash';
 import { SessionConfig, Question, Answered, TestResult, Answer } from './session.config';
+
+const writeFile = promisify(_writeFile);
+const readdir = promisify(_readdir);
 
 function getRandom(min: number, max: number): number {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -92,7 +98,7 @@ export class AppService {
     this.getSession(id).properties.passed.push(data);
   }
 
-  getTotal(id: string): TestResult {
+  async getTotal(id: string, user: { id: number }): Promise<TestResult> {
     const resultByTags = {};
     let right = 0;
     let all = 0;
@@ -154,7 +160,28 @@ export class AppService {
       resultByTags[tag].wrongPercent = Math.round((resultByTags[tag].wrong / count) * 100);
     }
 
-    return { total, resultByTags, complexPercent, simplePercent };
+
+    const resultDir = resolve('result', `${user.id}`);
+    if (!existsSync(resultDir)) {
+      mkdirSync(resultDir);
+    }
+    const summary = { total, resultByTags, complexPercent, simplePercent };
+    const content = JSON.stringify({ details: this.getSession(id).properties.passed, summary }, null, 2);
+    const resultFile = resolve(resultDir, `${new Date().toISOString()}.json`);
+
+    await writeFile(resultFile, content);
+
+    return summary;
+  }
+
+  async getPassedSessions(userId: string): Promise<string[]> {
+    const files = await readdir(resolve('result', userId));
+
+    return files.map(file => file.replace('.json', ''));
+  }
+
+  async getPassedSession(userId: string, label: string): Promise<TestResult> {
+    return null;
   }
 
   private getQuestionByLabel(label: string): Question {

@@ -31,10 +31,9 @@ export class AppController {
   }
 
   @Post('finish/:id')
-  getTotal(@Param() params: { id: string }, @Body() user: any): TestResult {
+  async getTotal(@Param() params: { id: string }, @Body() user: any): Promise<TestResult> {
     const { id } = params;
-    console.log(user);
-    return this.appService.getTotal(id);
+    return await this.appService.getTotal(id, user);
   }
 
   @Get('abandon/:id')
@@ -42,5 +41,19 @@ export class AppController {
     const { id } = params;
 
     return { id: this.appService.abandon(id) };
+  }
+
+  @Get('passed-sessions/:userId')
+  async getPassedSessions(@Param() params: { userId: string }): Promise<string[]> {
+    const { userId } = params;
+
+    return await this.appService.getPassedSessions(userId);
+  }
+
+  @Get('passed-sessions/:userId/:label')
+  async getPassedSession(@Param() params: { userId: string, label: string }): Promise<TestResult> {
+    const { userId, label } = params;
+
+    return await this.appService.getPassedSession(userId, label);
   }
 }

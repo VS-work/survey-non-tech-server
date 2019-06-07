@@ -1,0 +1,357 @@
+{
+  "details": [
+    {
+      "origin": {
+        "question": "Найдите НЕСУЩЕСТВУЮЩИЙ уровень TCP/IP стека (OSI model)",
+        "answers": [
+          {
+            "answer": "Application"
+          },
+          {
+            "answer": "Presentation"
+          },
+          {
+            "answer": "Interconnection"
+          },
+          {
+            "answer": "Session"
+          },
+          {
+            "answer": "Transport"
+          },
+          {
+            "answer": "Network"
+          },
+          {
+            "answer": "Data link"
+          },
+          {
+            "answer": "Physical"
+          }
+        ],
+        "config": {
+          "type": "radiobutton",
+          "shuffle": true,
+          "complex": true,
+          "slow": true
+        }
+      },
+      "result": "Interconnection"
+    },
+    {
+      "origin": {
+        "question": "Какая из далее следующих СУБД является “ключ-значение”",
+        "answers": [
+          {
+            "answer": "MongoDB"
+          },
+          {
+            "answer": "Redis"
+          },
+          {
+            "answer": "MySQL"
+          },
+          {
+            "answer": "PostgreSQL"
+          },
+          {
+            "answer": "OracleDB"
+          },
+          {
+            "answer": "Neo4J"
+          }
+        ],
+        "config": {
+          "type": "radiobutton",
+          "shuffle": true
+        }
+      },
+      "result": "Redis"
+    },
+    {
+      "origin": {
+        "question": "Выберите ВСЕ пункты относительно понятия Внутренний IP адрес",
+        "answers": [
+          {
+            "answer": "Может иногда совпадать с внешним"
+          },
+          {
+            "answer": "Не может совпадать с внешним"
+          },
+          {
+            "answer": "Такого понятия не существует"
+          },
+          {
+            "answer": "Также называется “частным”"
+          },
+          {
+            "answer": "Используется только в глобальной сети"
+          },
+          {
+            "answer": "Используется только в локальной сети"
+          },
+          {
+            "answer": "Может быть использован в глобальной сети"
+          },
+          {
+            "answer": "Является частью внешнего"
+          }
+        ],
+        "config": {
+          "type": "checkboxes",
+          "shuffle": true,
+          "complex": true,
+          "slow": true
+        }
+      },
+      "result": []
+    },
+    {
+      "origin": {
+        "question": "Выберите все ВЕРНЫЕ положения относительно кода ниже: <pre>var trafficLightColor = 'red';\nif (trafficLightColor == 'red') {\n\tconsole.log('go!');\n} else {\n\tconsole.log('stop!');\n}</pre>",
+        "answers": [
+          {
+            "answer": "Код синтаксически ошибочен"
+          },
+          {
+            "answer": "Код синтаксически правилен"
+          },
+          {
+            "answer": "Код логически ошибочен"
+          },
+          {
+            "answer": "Код логически правилен"
+          },
+          {
+            "answer": "В коде присутствует Control structure"
+          },
+          {
+            "answer": "В коде присутствует вызов функции"
+          },
+          {
+            "answer": "В коде используется объект"
+          }
+        ],
+        "config": {
+          "type": "checkboxes",
+          "shuffle": true,
+          "complex": true,
+          "slow": true
+        }
+      },
+      "result": []
+    },
+    {
+      "origin": {
+        "question": "Контент-элементы это:",
+        "answers": [
+          {
+            "answer": "DIV, P, UL, OL, H1, …"
+          },
+          {
+            "answer": "A, SPAN, STRONG, IMG, …"
+          },
+          {
+            "answer": "Ничего из вышеперечисленного",
+            "last": true
+          }
+        ],
+        "config": {
+          "type": "radiobutton",
+          "shuffle": true,
+          "complex": true,
+          "slow": false
+        }
+      },
+      "result": "Ничего из вышеперечисленного"
+    },
+    {
+      "origin": {
+        "question": "Содержит ли Request код ответа?",
+        "answers": [
+          {
+            "answer": "Нет"
+          },
+          {
+            "answer": "Да"
+          }
+        ],
+        "config": {
+          "type": "radiobutton",
+          "shuffle": true,
+          "slow": false
+        }
+      },
+      "result": "Нет"
+    },
+    {
+      "origin": {
+        "question": "SaaS это",
+        "answers": [
+          {
+            "answer": "Software as a Service"
+          },
+          {
+            "answer": "Service as a Service"
+          },
+          {
+            "answer": "Service as a Software"
+          },
+          {
+            "answer": "Software as a Software"
+          }
+        ],
+        "config": {
+          "type": "radiobutton",
+          "shuffle": true
+        }
+      },
+      "result": "Software as a Service"
+    },
+    {
+      "origin": {
+        "question": "Является ли следующий JSON правильным?<pre>{\n\t\"Name\": \"John\",\n\t\"Surname\": \"Doe\",\n\t\"Contacts\": {\n\t\"Email\": \"john-doe@aol.com\",\n\t\"Phone\": \"+123454653453\"\n\t},\n\t\"Age\": 44\n}</pre>",
+        "answers": [
+          {
+            "answer": "Нет"
+          },
+          {
+            "answer": "Да"
+          }
+        ],
+        "config": {
+          "type": "radiobutton",
+          "shuffle": true,
+          "complex": true,
+          "slow": true
+        }
+      },
+      "result": "Да"
+    },
+    {
+      "origin": {
+        "question": "Является ли следующий JSON правильным?<pre>{}</pre>",
+        "answers": [
+          {
+            "answer": "Нет"
+          },
+          {
+            "answer": "Да"
+          }
+        ],
+        "config": {
+          "type": "radiobutton",
+          "shuffle": true,
+          "complex": true
+        }
+      },
+      "result": "Да"
+    },
+    {
+      "origin": {
+        "question": "Для уменьшения времени обработки запроса во многих СУБД используют:",
+        "answers": [
+          {
+            "answer": "Обфускацию"
+          },
+          {
+            "answer": "Индексацию"
+          },
+          {
+            "answer": "Идентификацию"
+          },
+          {
+            "answer": "Валидацию"
+          },
+          {
+            "answer": "Время запроса невозможно уменьшить средствами одной лишь только СУБД"
+          }
+        ],
+        "config": {
+          "type": "checkboxes",
+          "shuffle": true
+        }
+      },
+      "result": []
+    }
+  ],
+  "summary": {
+    "total": 70,
+    "resultByTags": {
+      "problem solving": {
+        "right": 5,
+        "wrong": 2,
+        "rightPercent": 71,
+        "wrongPercent": 29
+      },
+      "сеть": {
+        "right": 2,
+        "wrong": 0,
+        "rightPercent": 100,
+        "wrongPercent": 0
+      },
+      "протоколы": {
+        "right": 1,
+        "wrong": 1,
+        "rightPercent": 50,
+        "wrongPercent": 50
+      },
+      "db": {
+        "right": 1,
+        "wrong": 1,
+        "rightPercent": 50,
+        "wrongPercent": 50
+      },
+      "программы": {
+        "right": 0,
+        "wrong": 1,
+        "rightPercent": 0,
+        "wrongPercent": 100
+      },
+      "яп": {
+        "right": 0,
+        "wrong": 1,
+        "rightPercent": 0,
+        "wrongPercent": 100
+      },
+      "javascript": {
+        "right": 0,
+        "wrong": 1,
+        "rightPercent": 0,
+        "wrongPercent": 100
+      },
+      "понятия": {
+        "right": 2,
+        "wrong": 0,
+        "rightPercent": 100,
+        "wrongPercent": 0
+      },
+      "фронтенд": {
+        "right": 1,
+        "wrong": 0,
+        "rightPercent": 100,
+        "wrongPercent": 0
+      },
+      "http": {
+        "right": 1,
+        "wrong": 0,
+        "rightPercent": 100,
+        "wrongPercent": 0
+      },
+      "clouds": {
+        "right": 1,
+        "wrong": 0,
+        "rightPercent": 100,
+        "wrongPercent": 0
+      },
+      "форматы": {
+        "right": 2,
+        "wrong": 0,
+        "rightPercent": 100,
+        "wrongPercent": 0
+      }
+    },
+    "complexPercent": 67,
+    "simplePercent": null
+  }
+}
