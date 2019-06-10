@@ -1,11 +1,12 @@
 import { promisify } from 'util';
-import { existsSync, mkdirSync, writeFile as _writeFile, readdir as _readdir } from 'fs';
+import { existsSync, mkdirSync, writeFile as _writeFile, readdir as _readdir, readFile as _readFile } from 'fs';
 import { resolve } from 'path';
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { flatten, cloneDeep, isArray, includes, isEmpty, keys } from 'lodash';
-import { SessionConfig, Question, Answered, TestResult, Answer } from './session.config';
+import { SessionConfig, Question, Answered, TestResult, Answer, TestSummary } from './session.config';
 
+const readFile = promisify(_readFile);
 const writeFile = promisify(_writeFile);
 const readdir = promisify(_readdir);
 
@@ -174,14 +175,19 @@ export class AppService {
     return summary;
   }
 
-  async getPassedSessions(userId: string): Promise<string[]> {
+  async getPassedSessions(userId: string): Promise<TestSummary[]> {
     const files = await readdir(resolve('result', userId));
+    const out = [];
 
-    return files.map(file => file.replace('.json', ''));
-  }
+    for (const file of files) {
+      const allSession = JSON.parse(await readFile(resolve('result', userId, file), 'utf-8'));
+      out.push({
+        title: file.replace('.json', ''),
+        details: allSession.summary
+      });
+    }
 
-  async getPassedSession(userId: string, label: string): Promise<TestResult> {
-    return null;
+    return out;
   }
 
   private getQuestionByLabel(label: string): Question {

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { SessionConfig, Question, Answered, TestResult } from './session.config';
+import { SessionConfig, Question, Answered, TestResult, TestSummary } from './session.config';
 
 @Controller()
 export class AppController {
@@ -44,16 +44,9 @@ export class AppController {
   }
 
   @Get('passed-sessions/:userId')
-  async getPassedSessions(@Param() params: { userId: string }): Promise<string[]> {
+  async getPassedSessions(@Param() params: { userId: string }): Promise<TestSummary[]> {
     const { userId } = params;
 
     return await this.appService.getPassedSessions(userId);
-  }
-
-  @Get('passed-sessions/:userId/:label')
-  async getPassedSession(@Param() params: { userId: string, label: string }): Promise<TestResult> {
-    const { userId, label } = params;
-
-    return await this.appService.getPassedSession(userId, label);
   }
 }

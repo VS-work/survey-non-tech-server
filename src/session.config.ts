@@ -45,3 +45,8 @@ export interface TestResult {
     }
   };
 }
+
+export interface TestSummary {
+  title: string;
+  details: TestResult;
+}
